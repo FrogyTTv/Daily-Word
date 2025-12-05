@@ -29,4 +29,3 @@ const userData = {
   readingProgress
 };
 
-// console.log(JSON.stringify(userData, null, 2));
