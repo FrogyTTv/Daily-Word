@@ -1,0 +1,33 @@
+
+.main-nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.main-nav-section details {
+    padding-right: var(--universal-padding);
+    /* max-width: 55rem; */
+}
+
+.main-nav-section summary {
+    border-block-end: 1px solid white;
+    margin-block: .5rem;
+    padding-block: .5rem;
+}
+
+.main-nav-section ul {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+.main-nav-section li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    aspect-ratio: 1;
+    list-style: none;
+    background-color: #1E1E1E;
+    padding: 1rem;
+}

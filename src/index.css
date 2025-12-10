@@ -107,6 +107,8 @@ body {
 
 .main-nav-section {
   margin: var(--universal-padding);
+  overflow: scroll;
+  scrollbar-width: thin;
 }
 
 .search-section {

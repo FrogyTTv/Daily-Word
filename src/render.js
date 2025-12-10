@@ -26,3 +26,6 @@ nav_dashboard.addEventListener('click', function() {
 nav_notes.addEventListener('click', function() {
   window.location.replace('./notes_highlights.html')
 });
+nav_chapters.addEventListener('click', function() {
+  window.location.replace('./chapters_read.html')
+});
