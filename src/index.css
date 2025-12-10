@@ -110,6 +110,15 @@ body {
   overflow: scroll;
   scrollbar-width: thin;
 }
+/* Removing the spacing from adding emojis to text */
+.main-nav-section h1 {
+  padding-top: 0.1rem;
+}
+
+#title {
+  padding: 0;
+}
+/* Removing the spacing from adding emojis to text */
 
 .search-section {
   width: 100%;
