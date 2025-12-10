@@ -1,6 +1,8 @@
-import { loadData, getUsername } from "./database.js";
+import { loadData } from "./database.js";
 
 const title = document.getElementById('title')
-const username = await getUsername();
-title.textContent = `Hello, ${username} 👋`;
+const database = await loadData();
+
+
+title.textContent = `Hello, ${database.username} 👋`;
 console.log(title)

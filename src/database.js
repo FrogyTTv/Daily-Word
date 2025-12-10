@@ -5,11 +5,6 @@ export async function loadData() {
   return database;
 }
 
-export async function getUsername() {
-  const database = await loadData();
-  return database.username;
-}
-
 // loadData().then(database => console.log(database));
 
 loadData().then(database => {
