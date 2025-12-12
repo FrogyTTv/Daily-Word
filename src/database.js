@@ -1,6 +1,4 @@
 
-
-
 export async function loadDatabase() {
   const response = await fetch('./database.json'); // relative to the HTML file
   const database = await response.json();
@@ -36,6 +34,16 @@ export function generateBookStack(name, numberOfChapters) {
   main_section.appendChild(detailsElement);
 }
 
+export function changeProperty(element, book) {
+  element.addEventListener('click', function() {
+    element.classList.toggle('active');
+    console.log(book)
+    console.log(element.textContent)
+    database.readingProgress[book][element.textContent] = !database.readingProgress[book][element.textContent]
+    console.log(database.readingProgress[book][element.textContent])
+  })
+}
+
 // Write the information from the database to the screen.
 
 // for (let book in database.readingProgress) {
@@ -62,7 +70,3 @@ export function generateBookStack(name, numberOfChapters) {
 //   main_section.appendChild(detailsElement);
 // }
 
-
-
-// Når listElementet lages så sjekker den om elementet inni er true eller false, så legger man på en eventlistner og en id.
-// eventlisnern 

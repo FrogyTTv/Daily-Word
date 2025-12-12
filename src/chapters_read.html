@@ -8,11 +8,12 @@
     <script type="module" defer src="./render.js"></script>
     <script type="module" defer src="./database.js"></script>
     <script type="module">
-      import { loadDatabase } from "./database.js";
+      import { loadDatabase, changeProperty } from "./database.js";
 
       const database = await loadDatabase();
       const main_section = document.getElementById('main-nav-section')
 
+      
 
       for (let book in database.readingProgress) {
         const detailsElement = document.createElement('details');
@@ -23,23 +24,26 @@
 
         const list = document.createElement('ul');
 
-        console.log(book)
+        // console.log(book)
         for (let chapter in database.readingProgress[book]) {
           const listElement = document.createElement('li')
           listElement.textContent = chapter;
           if (database.readingProgress[book][chapter] === true) {
             listElement.classList.add('active')
+            await changeProperty(listElement, book);
+          } else {
+            await changeProperty(listElement, book);
           }
           list.appendChild(listElement)
           // console.log(chapter)
         }
-
         // Append summary and content to the details element
         detailsElement.appendChild(summaryElement);
         detailsElement.appendChild(list)
         
         main_section.appendChild(detailsElement);
       }
+
     </script>
 
   </head>

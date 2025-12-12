@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    padding-bottom: 7rem;
 }
 
 .main-nav-section details {
@@ -22,6 +23,9 @@
     flex-wrap: wrap;
 }
 .main-nav-section li {
+    /* --color: #141414; */
+    --color: #1E1E1E;
+    --border-width: 2px;
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -30,18 +34,34 @@
     width: 60px;
     aspect-ratio: 1;
     list-style: none;
-    /* background-color: #1E1E1E; */
-    /* border: 1px solid #1E1E1E; */
     padding: 1rem;
+    /* background-color: var(--color); */
 }
 
-/* For å legge border på innsiden */
+.main-nav-section li:hover {
+    --color: #2e2e2e;
+    --border-width: 2.5px;
+    /* background-color: #1E1E1E; */
 
+}
+/* For å legge border på innsiden */
 .main-nav-section li::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 3px solid #1E1E1E;
-  pointer-events: none;
-  box-sizing: border-box;
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: var(--border-width) solid var(--color);
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+
+.main-nav-section .active {
+  background-color: #1E1E1E;
+}
+.main-nav-section .active:hover {
+    background-color: #2e2e2e;
+}
+.main-nav-section .active:hover::before,
+.main-nav-section .active::before {
+    border: none;
 }
