@@ -7,12 +7,6 @@ export async function loadDatabase() {
   return database;
 }
 
-// loadData().then(database => console.log(database));
-
-// loadData().then(database => {
-//   console.log(database)
-//   console.log(database.username)
-// })
 const main_section = document.getElementById('main-nav-section')
 
 const database = await loadDatabase();
@@ -42,4 +36,33 @@ export function generateBookStack(name, numberOfChapters) {
   main_section.appendChild(detailsElement);
 }
 
-// generateBookStack('Frede', 67);
+// Write the information from the database to the screen.
+
+// for (let book in database.readingProgress) {
+//   const detailsElement = document.createElement('details');
+//   detailsElement.name = 'book';
+
+//   const summaryElement = document.createElement('summary');
+//   summaryElement.textContent = book;
+
+//   const list = document.createElement('ul');
+
+//   console.log(book)
+//   for (let chapter in database.readingProgress[book]) {
+//     const listElement = document.createElement('li')
+//     listElement.textContent = chapter;
+//     list.appendChild(listElement)
+//     console.log(chapter)
+//   }
+
+//   // Append summary and content to the details element
+//   detailsElement.appendChild(summaryElement);
+//   detailsElement.appendChild(list)
+  
+//   main_section.appendChild(detailsElement);
+// }
+
+
+
+// Når listElementet lages så sjekker den om elementet inni er true eller false, så legger man på en eventlistner og en id.
+// eventlisnern 

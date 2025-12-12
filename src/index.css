@@ -107,8 +107,13 @@ body {
 
 .main-nav-section {
   margin: var(--universal-padding);
+  margin-bottom: 0;
   overflow: scroll;
   scrollbar-width: thin;
+}
+
+.main-nav-section .active {
+  background-color: #1E1E1E;
 }
 /* Removing the spacing from adding emojis to text */
 .main-nav-section h1 {

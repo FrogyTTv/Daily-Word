@@ -8,8 +8,38 @@
     <script type="module" defer src="./render.js"></script>
     <script type="module" defer src="./database.js"></script>
     <script type="module">
-      import { generateBookStack } from './database.js';
-      generateBookStack('Andreas', 10);
+      import { loadDatabase } from "./database.js";
+
+      const database = await loadDatabase();
+      const main_section = document.getElementById('main-nav-section')
+
+
+      for (let book in database.readingProgress) {
+        const detailsElement = document.createElement('details');
+        detailsElement.name = 'book';
+
+        const summaryElement = document.createElement('summary');
+        summaryElement.textContent = book;
+
+        const list = document.createElement('ul');
+
+        console.log(book)
+        for (let chapter in database.readingProgress[book]) {
+          const listElement = document.createElement('li')
+          listElement.textContent = chapter;
+          if (database.readingProgress[book][chapter] === true) {
+            listElement.classList.add('active')
+          }
+          list.appendChild(listElement)
+          // console.log(chapter)
+        }
+
+        // Append summary and content to the details element
+        detailsElement.appendChild(summaryElement);
+        detailsElement.appendChild(list)
+        
+        main_section.appendChild(detailsElement);
+      }
     </script>
 
   </head>
@@ -42,55 +72,6 @@
       </div>
       <div id="main-nav-section" class="main-nav-section">
         <h1>Chapters Read</h1>
-
-        <details name="book">
-          <summary>Genesis</summary>
-          <ul>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Og</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-            <li>Hei</li>
-          </ul>
-        </details>
-        <details name="book">
-          <summary>Exodus</summary>
-          <ul>
-            <li>OWD</li>
-            <li>OLEO</li>
-            <li>LEL</li>
-            <li>LOL</li>
-          </ul>
-        </details>
-        <details name="book">
-          <summary>Exodus</summary>
-          <ul>
-            <li>OWD</li>
-            <li>OLEO</li>
-            <li>LEL</li>
-            <li>LOL</li>
-          </ul>
-        </details>
-        <details name="book">
-          <summary>Exodus</summary>
-          <ul>
-            <li>OWD</li>
-            <li>OLEO</li>
-            <li>LEL</li>
-            <li>LOL</li>
-          </ul>
-        </details>
 
       </div>
     </div>
