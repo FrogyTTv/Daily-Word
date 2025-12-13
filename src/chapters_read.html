@@ -11,9 +11,7 @@
       import { loadDatabase, changeProperty } from "./database.js";
 
       const database = await loadDatabase();
-      const main_section = document.getElementById('main-nav-section')
-
-      
+      const main_section = document.getElementById('main-nav-section')      
 
       for (let book in database.readingProgress) {
         const detailsElement = document.createElement('details');
@@ -28,12 +26,14 @@
         for (let chapter in database.readingProgress[book]) {
           const listElement = document.createElement('li')
           listElement.textContent = chapter;
+          
           if (database.readingProgress[book][chapter] === true) {
             listElement.classList.add('active')
             await changeProperty(listElement, book);
           } else {
             await changeProperty(listElement, book);
           }
+          
           list.appendChild(listElement)
           // console.log(chapter)
         }
