@@ -37,12 +37,27 @@ export function generateBookStack(name, numberOfChapters) {
 export function changeProperty(element, book) {
   element.addEventListener('click', function() {
     element.classList.toggle('active');
-    console.log(book)
-    console.log(element.textContent)
-    database.readingProgress[book][element.textContent] = !database.readingProgress[book][element.textContent]
-    console.log(database.readingProgress[book][element.textContent])
-  })
+
+    // Update in-memory database
+    database.readingProgress[book][element.textContent] = !database.readingProgress[book][element.textContent];
+
+    // Save the updated database via main process
+    window.api.saveDatabase(database);
+    console.log(database)
+  });
 }
+
+
+
+// export function changeProperty(element, book) {
+//   element.addEventListener('click', function() {
+//     element.classList.toggle('active');
+//     console.log(book)
+//     console.log(element.textContent)
+//     database.readingProgress[book][element.textContent] = !database.readingProgress[book][element.textContent]
+//     console.log(database.readingProgress[book][element.textContent])
+//   })
+// }
 
 // Write the information from the database to the screen.
 

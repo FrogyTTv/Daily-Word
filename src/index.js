@@ -1,5 +1,12 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('node:path');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const fs = require('fs');
+
+ipcMain.on('save-database', (event, newDatabase) => {
+  const dbPath = path.join(__dirname, 'database.json'); // path to your current database.json
+  fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
+  console.log('Database saved to', dbPath);
+});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
