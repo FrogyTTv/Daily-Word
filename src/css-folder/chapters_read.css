@@ -12,6 +12,9 @@
 }
 
 .main-nav-section summary {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
     border-block-end: 1px solid white;
     margin-block: .5rem;
     padding-block: .5rem;

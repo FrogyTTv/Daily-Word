@@ -24,7 +24,6 @@ export function generateBookStack(name, numberOfChapters) {
     const listElement = document.createElement('li')
     listElement.textContent = i;
     list.appendChild(listElement)
-    // console.log(i)
   }
   
   // Append summary and content to the details element
@@ -34,16 +33,41 @@ export function generateBookStack(name, numberOfChapters) {
   main_section.appendChild(detailsElement);
 }
 
-export function changeProperty(element, book) {
+export function updatePercentage(book, percentageElement) {
+  let chaptersInTheBook = 0;
+  let readChapters = 0;
+  let percentageOfBook;
+
+  for (let chapter in database.readingProgress[book]) {
+    chaptersInTheBook++;
+    if (database.readingProgress[book][chapter] === true) {
+      readChapters++;
+    }
+  }
+
+  // console.log(chaptersInTheBook);
+  // console.log(readChapters);
+  percentageOfBook = (readChapters / chaptersInTheBook) * 100;
+  const roundedPercentage = Math.round(percentageOfBook * 100) / 100
+  
+  console.log(roundedPercentage)
+
+  percentageElement.textContent = ` ${roundedPercentage}%`
+}
+
+
+export function changeProperty(element, book, percentageElement) {
   element.addEventListener('click', function() {
     element.classList.toggle('active');
 
     // Update in-memory database
     database.readingProgress[book][element.textContent] = !database.readingProgress[book][element.textContent];
 
+    updatePercentage(book, percentageElement)
+
     // Save the updated database via main process
     window.api.saveDatabase(database);
-    console.log(database)
+    console.log('Saved to database')
   });
 }
 

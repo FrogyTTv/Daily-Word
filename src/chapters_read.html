@@ -8,7 +8,7 @@
     <script type="module" defer src="./render.js"></script>
     <script type="module" defer src="./database.js"></script>
     <script type="module">
-      import { loadDatabase, changeProperty } from "./database.js";
+      import { loadDatabase, changeProperty, updatePercentage } from "./database.js";
 
       const database = await loadDatabase();
       const main_section = document.getElementById('main-nav-section')      
@@ -18,9 +18,19 @@
         detailsElement.name = 'book';
 
         const summaryElement = document.createElement('summary');
-        summaryElement.textContent = book;
+
+        const summaryTitle = document.createElement('span')
+        summaryTitle.textContent = book
+        
+        const summaryPercent = document.createElement('span')
+        let percentage = 0;
+        summaryPercent.textContent = ` ${percentage}%`
+
+        summaryElement.append(summaryTitle, summaryPercent)
 
         const list = document.createElement('ul');
+
+        updatePercentage(book, summaryPercent)
 
         // console.log(book)
         for (let chapter in database.readingProgress[book]) {
@@ -29,9 +39,9 @@
           
           if (database.readingProgress[book][chapter] === true) {
             listElement.classList.add('active')
-            await changeProperty(listElement, book);
+            await changeProperty(listElement, book, summaryPercent);
           } else {
-            await changeProperty(listElement, book);
+            await changeProperty(listElement, book, summaryPercent);
           }
           
           list.appendChild(listElement)
