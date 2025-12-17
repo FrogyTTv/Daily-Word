@@ -5,6 +5,20 @@ const streakDisplay = document.getElementById('StreakDisplay')
 const chaptersReadDisplay = document.getElementById('ChaptersReadDisplay')
 const booksReadDisplay = document.getElementById('BooksReadDisplay')
 
+const dailyVerseRefrence = document.getElementById('dvLocation')
+const dailyVerse = document.getElementById('dailyVerse')
+const dvApiUrl = 'https://beta.ourmanna.com/api/v1/get/?format=json&order=daily'
+
+const response = await fetch(dvApiUrl);
+const dvData = await response.json();
+
+const { text, reference} = dvData.verse.details;
+console.log(dvData.verse.details.text)
+dailyVerse.textContent = `"${dvData.verse.details.text}"`
+dailyVerseRefrence.textContent = dvData.verse.details.reference
+
+
+
 const database = await loadDatabase();
 const title = document.getElementById('title')
 

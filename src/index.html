@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="./css-folder/index-page.css"/>
     <script type="module" defer src="./render.js"></script>
     <script type="module" defer src="./homepage.js"></script>
+    <script type="module" defer>
+      const dvElement = document.getElementById('dv-background')
+
+      function getRandomNumber(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+      dvElement.style.backgroundColor = `var(--qs-bgcolor-${getRandomNumber(1,4)})`
+
+      console.log(dvElement.style.backgroundColor)
+    </script>
   </head>
   <body>
     <div class="grid-alignment-container">
@@ -43,7 +55,7 @@
             <div class="qs-container">
               <div class="qs-1">
                 <p>Bible read</p>
-                <h4 id="BiblePercentageDisplay">67%</h4>
+                <h4 id="BiblePercentageDisplay">0%</h4>
               </div>
               <div class="qs-2">
                 <p>Reading streak</p>
@@ -51,12 +63,21 @@
               </div>
               <div class="qs-3">
                 <p>Chapters read</p>
-                <h4 id="ChaptersReadDisplay">108</h4>
+                <h4 id="ChaptersReadDisplay">0</h4>
               </div>
               <div class="qs-4">
                 <p>Books read</p>
-                <h4 id="BooksReadDisplay">4</h4>
+                <h4 id="BooksReadDisplay">0</h4>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="daily-verse">
+          <h2>Daily Verse</h2>
+          <div class="dv-container">
+            <div id="dv-background" class="daily-verse-text">
+              <p id="dvLocation">Example 3:16</p>
+              <h4 id="dailyVerse">Daily verse - Loading</h4>
             </div>
           </div>
         </div>
