@@ -6,10 +6,10 @@ export async function loadDatabase() {
 }
 
 const main_section = document.getElementById('main-nav-section')
-
 const database = await loadDatabase();
 
 console.log(database)
+console.log('Hei')
 
 export function generateBookStack(name, numberOfChapters) {
   const detailsElement = document.createElement('details');
@@ -57,6 +57,18 @@ export function updatePercentage(book, percentageElement) {
   }
   percentageElement.textContent = ` ${roundedPercentage}%`
 }
+
+
+
+// export function resetEntireDatabase() {
+//   for (const book in database.readingProgress) {
+//     const chapters = database.readingProgress[book]
+//     for (const chapter in chapters) {
+//         database.readingProgress[book][chapter] = false
+//     }
+//   }
+//   console.log(database)
+// }
 
 
 export function changeProperty(element, book, percentageElement) {
