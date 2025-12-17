@@ -37,21 +37,24 @@ export function updatePercentage(book, percentageElement) {
   let chaptersInTheBook = 0;
   let readChapters = 0;
   let percentageOfBook;
-
+  
   for (let chapter in database.readingProgress[book]) {
     chaptersInTheBook++;
     if (database.readingProgress[book][chapter] === true) {
       readChapters++;
     }
   }
-
+  
   // console.log(chaptersInTheBook);
   // console.log(readChapters);
   percentageOfBook = (readChapters / chaptersInTheBook) * 100;
   const roundedPercentage = Math.round(percentageOfBook * 100) / 100
   
-  console.log(roundedPercentage)
-
+  if (roundedPercentage === 100) {
+    percentageElement.classList.toggle('book_completed')
+  } else {
+    percentageElement.classList.remove('book_completed')
+  }
   percentageElement.textContent = ` ${roundedPercentage}%`
 }
 
