@@ -181,3 +181,11 @@ input[type="search"]::-webkit-search-cancel-button {
 .book_completed {
   color: rgb(12, 205, 12);
 }
+
+#resetDatabaseBtn {
+  /* display: flex; */
+  padding: 1rem;
+  background-color: red;
+  color: white;
+  border: none;
+}

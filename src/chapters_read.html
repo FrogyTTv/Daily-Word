@@ -56,7 +56,18 @@
 
       // Define the function
       function resetEntireDatabase() {
-        console.log('Hei')
+        if(confirm('Are you sure you want to reset the progress?')) {
+          console.log('Clicked')
+          for (const book in database.readingProgress) {
+            for (const chapter in database.readingProgress[book]) {
+              database.readingProgress[book][chapter] = false
+            }
+          }
+          window.api.saveDatabase(database);
+
+          console.log('Saved reset to database')
+          location.reload()
+        }
       }
 
       // Get the element by its ID
@@ -97,8 +108,9 @@
       </div>
       <div id="main-nav-section" class="main-nav-section">
         <h1>Chapters Read</h1>
-        <button id="resetDatabaseBtn">Reset database</button>
-
+        <div class="reset-container">
+          <button id="resetDatabaseBtn">Reset database</button>
+        </div>
       </div>
     </div>
   </body>

@@ -1,6 +1,6 @@
 {
-  "name": "daily-word",
-  "productName": "daily-word",
+  "name": "Daily Word",
+  "productName": "Daily Word",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/index.js",

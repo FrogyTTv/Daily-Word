@@ -1,9 +1,8 @@
 
 export async function loadDatabase() {
-  const response = await fetch('./database.json'); // relative to the HTML file
-  const database = await response.json();
-  return database;
+  return await window.electron.invoke('load-database');
 }
+
 
 const main_section = document.getElementById('main-nav-section')
 const database = await loadDatabase();
