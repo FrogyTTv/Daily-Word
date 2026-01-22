@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+out/
+release/
+
+# Cache & temp files
+.cache/
+.tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Tests & coverage
+test/
+tests/
+__tests__/
+coverage/
+
+# Config & tooling (optional)
+.eslintrc*
+.prettierrc*
+.editorconfig
+tsconfig*.json
+
+# Git files
+.git/
+.gitignore
