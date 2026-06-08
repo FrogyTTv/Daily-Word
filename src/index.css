@@ -81,7 +81,8 @@ body {
   padding: var(--universal-padding);
   padding-right: 1rem;
   border-right: var(--border-color) var(--border-size) solid;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
 }
 
@@ -114,7 +115,8 @@ body {
 .main-nav-section {
   margin: var(--universal-padding);
   margin-bottom: 0;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
 }
 

@@ -25,7 +25,8 @@
     
     height: 10rem;
     min-width: 60rem;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     color: hsl(0, 0%, 0%, .67);
 }
