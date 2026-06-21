@@ -13,17 +13,17 @@ function App() {
     <>
       <div className="grid-wrapper">
         <div className="titlebar">
-          <div className="logo"></div>
           <Searchbar />
+          {/* <div className="logo"></div> */}
         </div>
-        <Navbar currentPage={currentPage} updatePage={setCurrentPage}/>
+        <Navbar currentPage={currentPage} updatePage={setCurrentPage} />
         <main>
           {currentPage === "dashboard" && <Dashboard />}
-          {currentPage === "notes" && <Wip title={'notes'}/>}
+          {currentPage === "notes" && <Wip title={"notes"} />}
           {currentPage === "registration" && <Registration />}
-          {currentPage === "analytics" && <Wip title={'analytics'} />}
-          {currentPage === "support" && <Wip title={'support'}/>}
-          {currentPage === "settings" && <Wip title={'settings'}/>}
+          {currentPage === "analytics" && <Wip title={"analytics"} />}
+          {currentPage === "support" && <Wip title={"support"} />}
+          {currentPage === "settings" && <Wip title={"settings"} />}
         </main>
       </div>
     </>

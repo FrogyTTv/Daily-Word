@@ -7,17 +7,17 @@ function Searchbar() {
 
   return (
     <div onClick={() => inputRef.current?.focus()} className="searchbar">
-      <img src={SearchIcon} style={{ width: "22px" }} />
+      <img src={SearchIcon} style={{ width: "18px" }} />
       <input
         ref={inputRef}
         style={{
-          flexGrow: 1,
+          // flexGrow: 1,
           border: "none",
           backgroundColor: "transparent",
           outline: "none",
           color: "white",
         }}
-        type="search"
+        // type="search"
         placeholder="Search..."
       />
       <p>⌘ + F</p>
