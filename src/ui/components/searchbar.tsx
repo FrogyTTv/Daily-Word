@@ -5,6 +5,14 @@ import { useRef } from "react";
 function Searchbar() {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  window.addEventListener("keydown", (event) => {
+    const isCmdF =
+      (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "f";
+    if (isCmdF) {
+      event.preventDefault(); // prevent default browser find
+      inputRef.current?.focus();
+    }
+  });
   return (
     <div onClick={() => inputRef.current?.focus()} className="searchbar">
       <img src={SearchIcon} style={{ width: "18px" }} />
