@@ -208,3 +208,77 @@ main {
   padding: 1.3rem;
   border-radius: 1.2rem;
 }
+
+/* Register Chapters page (ported from the original chapters_read.css).
+   Grays bumped from the original #1E1E1E so boxes read against this app's
+   #1d1d1e background instead of the old app's pure-black body. */
+.chapters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.chapters-section details {
+  padding-right: var(--universal-padding);
+}
+
+.chapters-section summary {
+  display: flex;
+  justify-content: space-between;
+  border-block-end: 1px solid white;
+  margin-block: 0.5rem;
+  padding-block: 0.5rem;
+  cursor: pointer;
+}
+
+.chapters-section ul {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.chapters-section li {
+  --color: #3b3b3b;
+  --border-width: 2px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  aspect-ratio: 1;
+  list-style: none;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.chapters-section li:hover {
+  --color: #555555;
+  --border-width: 2.5px;
+}
+
+/* Inner border so the box size doesn't shift on hover. */
+.chapters-section li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--border-width) solid var(--color);
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.chapters-section .active {
+  background-color: #3a3a3a;
+}
+.chapters-section .active:hover {
+  background-color: #474747;
+}
+.chapters-section .active:hover::before,
+.chapters-section .active::before {
+  border: none;
+}
+
+.book_completed {
+  color: rgb(12, 205, 12);
+}
