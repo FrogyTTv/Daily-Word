@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Registration from "./components/registration";
 import { Navbar } from "./components/navigation";
@@ -7,7 +7,13 @@ import Wip from "./components/wip";
 import Searchbar from "./components/searchbar";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<string>("dashboard");
+  const [currentPage, setCurrentPage] = useState(() => {
+    return sessionStorage.getItem("currentPage") || "dashboard";
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem("currentPage", currentPage);
+  }, [currentPage]);
 
   return (
     <>
