@@ -213,6 +213,7 @@ main {
    Grays bumped from the original #1E1E1E so boxes read against this app's
    #1d1d1e background instead of the old app's pure-black body. */
 .chapters-section {
+  --border-rad: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -225,7 +226,8 @@ main {
 .chapters-section summary {
   display: flex;
   justify-content: space-between;
-  border-block-end: 1px solid white;
+  border-block-end: 1px solid #3b3b3b;
+  /* outline: 1px solid #3b3b3b; */
   margin-block: 0.5rem;
   padding-block: 0.5rem;
   cursor: pointer;
@@ -240,7 +242,8 @@ main {
 
 .chapters-section li {
   --color: #3b3b3b;
-  --border-width: 2px;
+  --border-width: 1px;
+  border-radius: var(--border-rad);
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -255,7 +258,7 @@ main {
 
 .chapters-section li:hover {
   --color: #555555;
-  --border-width: 2.5px;
+  --border-width: 1.5px;
 }
 
 /* Inner border so the box size doesn't shift on hover. */
@@ -266,6 +269,7 @@ main {
   border: var(--border-width) solid var(--color);
   pointer-events: none;
   box-sizing: border-box;
+  border-radius: var(--border-rad);
 }
 
 .chapters-section .active {
