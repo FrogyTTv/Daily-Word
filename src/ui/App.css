@@ -17,6 +17,11 @@
   --fw-extrabold: 800;
 }
 
+:root {
+  scrollbar-color: rgba(0, 0, 0, 0.4) transparent; /* Thumb color, Track color */
+  scrollbar-width: thin; /* Makes the scrollbar thinner */
+}
+
 h1 {
   font-size: 1.6em;
   font-weight: var(--fw-light);
@@ -85,6 +90,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #131314;
+  overflow: scroll;
   gap: 1rem;
 
   padding: var(--universal-padding);
@@ -112,6 +118,7 @@ body {
   --border-color: #3b3b3b;
 
   display: grid;
+  overflow: hidden;
   flex: 1;
   min-height: 0;
   grid-template-columns: 250px 1fr;
@@ -127,6 +134,7 @@ body {
 
 main {
   display: flex;
+  overflow: scroll;
   flex-direction: column;
   padding: var(--universal-padding);
   gap: 1rem;
@@ -139,14 +147,9 @@ main {
   display: grid;
   grid-template-columns: 250px 1fr;
   align-items: center;
-  /* justify-content: center; */
-  /* justify-content: end; */
   app-region: drag;
   grid-column: 1 / span 2;
-  /* background-color: rgb(13, 8, 156); */
-  /* background-color: black; */
   background-color: #1d1d1e;
-  /* border-radius: 0.5rem; */
   /* padding-left: var(--universal-padding); */
   border-bottom: var(--border-color) var(--border-size) solid;
 }

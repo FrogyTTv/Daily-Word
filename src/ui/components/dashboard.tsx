@@ -5,11 +5,12 @@ const Dashboard = () => {
   const DAILYVERSEAPI =
     "https://beta.ourmanna.com/api/v1/get/?format=json&order=daily";
 
-  const DVColors = ["#D8E0E8", "#DEEAD6", "#FDF5C8", "#E8DDF5"];
+  const BGColors = ["#D8E0E8", "#DEEAD6", "#FDF5C8", "#E8DDF5"];
+  const [randomDVColor, setRandomDVColor] = useState("");
 
   useEffect(() => {
-    // Fetch Pokemons
     fetchDailyVerse();
+    setRandomDVColor(BGColors[Math.floor(Math.random() * 4)]);
   }, []);
 
   async function fetchDailyVerse() {
@@ -23,6 +24,7 @@ const Dashboard = () => {
         text: text ?? "",
         reference: reference ?? "",
       });
+
       // console.log(text);
       // console.log(reference);
     } catch (e) {
@@ -37,7 +39,7 @@ const Dashboard = () => {
       <div
         className="dv-text"
         style={{
-          backgroundColor: `${DVColors[Math.floor(Math.random() * 4)]}`,
+          backgroundColor: `${randomDVColor}`,
         }}
       >
         <h4>
@@ -45,7 +47,9 @@ const Dashboard = () => {
             ? `"${dailyVerse.text}"`
             : "Daily Verse is Loading..."}
         </h4>
-        <p>{dailyVerse.reference}</p>
+        <p>
+          {dailyVerse.reference ? `"${dailyVerse.reference}"` : "Loading..."}
+        </p>
       </div>
     </>
   );
