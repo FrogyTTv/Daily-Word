@@ -15,6 +15,11 @@ function App() {
     sessionStorage.setItem("currentPage", currentPage);
   }, [currentPage]);
 
+  useEffect(() => {
+    const unsubscribe = window.api.onNavigate((page) => setCurrentPage(page));
+    return unsubscribe;
+  }, []);
+
   return (
     <>
       <div className="grid-wrapper">

@@ -32,7 +32,12 @@ ipcMain.on("save-database", (_event, newDatabase: Database) => {
   fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
 });
 
-const appMenu: any = [
+function buildAppMenu(mainWindow: BrowserWindow): Menu {
+  const sendNavigate = (page: string) => {
+    mainWindow.webContents.send("navigate", page);
+  };
+
+  const appMenu: any = [
   {
     label: app.name,
     submenu: [
@@ -79,23 +84,17 @@ const appMenu: any = [
       {
         label: "Dashboard",
         accelerator: "Cmd+1",
-        click: () => {
-          console.log("Creating new project...");
-        },
+        click: () => sendNavigate("dashboard"),
       },
       {
-        label: "Home",
+        label: "Notes",
         accelerator: "Cmd+2",
-        click: () => {
-          console.log("Creating new project...");
-        },
+        click: () => sendNavigate("notes"),
       },
       {
-        label: "Yoo",
+        label: "Registration",
         accelerator: "Cmd+3",
-        click: () => {
-          console.log("Creating new project...");
-        },
+        click: () => sendNavigate("registration"),
       },
     ],
   },
@@ -111,13 +110,13 @@ const appMenu: any = [
       },
     ],
   },
-];
+  ];
+
+  return Menu.buildFromTemplate(appMenu);
+}
 
 app.on("ready", () => {
   ensureDatabaseExists();
-
-  const menu = Menu.buildFromTemplate(appMenu);
-  Menu.setApplicationMenu(menu);
 
   const mainWindow = new BrowserWindow({
     titleBarStyle: "hidden",
@@ -139,6 +138,8 @@ app.on("ready", () => {
       sandbox: false,
     },
   });
+
+  Menu.setApplicationMenu(buildAppMenu(mainWindow));
 
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5123");
