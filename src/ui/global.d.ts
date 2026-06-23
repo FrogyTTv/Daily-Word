@@ -11,6 +11,7 @@ declare global {
       saveDatabase: (database: Database) => void;
       loadDatabase: () => Promise<Database>;
       onNavigate: (callback: (page: string) => void) => () => void;
+      onFocusSearch: (callback: () => void) => () => void;
     };
     electron: {
       invoke: (channel: string, data?: unknown) => Promise<unknown>;

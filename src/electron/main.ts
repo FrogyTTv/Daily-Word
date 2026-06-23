@@ -37,79 +37,132 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
     mainWindow.webContents.send("navigate", page);
   };
 
-  const appMenu: any = [
-  {
-    label: app.name,
-    submenu: [
-      { role: "about" },
-      { type: "separator" },
-      { role: "services" },
-      { type: "separator" },
-      { role: "hide" },
-      { role: "hideOthers" },
-      { role: "unhide" },
-      { type: "separator" },
-      { role: "quit" },
-    ],
-  },
-  {
-    label: "File",
-    submenu: [
-      {
-        label: "New Project",
-        accelerator: "CmdOrCtrl+N", // Keyboard shortcut
-        click: () => {
-          console.log("Creating new project...");
+  const appMenu: Electron.MenuItemConstructorOptions[] = [
+    {
+      label: app.name,
+      submenu: [
+        { role: "about" },
+        { type: "separator" },
+        {
+          label: "Preferences",
+          accelerator: "Cmd+,",
+          click: () => sendNavigate("settings"),
         },
-      },
-      { type: "separator" }, // Adds a visual line separator
-      // Using an OS built-in role
-      { role: "quit" },
-    ],
-  },
-  {
-    label: "Edit",
-    submenu: [
-      { role: "undo" },
-      { role: "redo" },
-      { type: "separator" },
-      { role: "cut" },
-      { role: "copy" },
-      { role: "paste" },
-    ],
-  },
-  {
-    label: "View",
-    submenu: [
-      {
-        label: "Dashboard",
-        accelerator: "Cmd+1",
-        click: () => sendNavigate("dashboard"),
-      },
-      {
-        label: "Notes",
-        accelerator: "Cmd+2",
-        click: () => sendNavigate("notes"),
-      },
-      {
-        label: "Registration",
-        accelerator: "Cmd+3",
-        click: () => sendNavigate("registration"),
-      },
-    ],
-  },
-  {
-    label: "Help",
-    submenu: [
-      {
-        label: "Learn More",
-        click: async () => {
-          const { shell } = require("electron");
-          await shell.openExternal("https://electronjs.org");
+        { type: "separator" },
+        { role: "hide" },
+        { type: "separator" },
+        { role: "quit" },
+      ],
+    },
+    {
+      label: "File",
+      submenu: [
+        {
+          label: "Export Reading Progress",
+          accelerator: "Cmd+E",
+          click: () => {
+            console.log("Export Reading Progress...");
+          },
         },
-      },
-    ],
-  },
+        {
+          label: "Import Reading Progress",
+          accelerator: "Cmd+I",
+          click: () => {
+            console.log("Import Reading Progress...");
+          },
+        },
+        { type: "separator" }, // Adds a visual line separator
+        {
+          label: "Reset All Progress",
+          click: () => {
+            console.log("Reset All Progress...");
+          },
+        },
+      ],
+    },
+    {
+      label: "Edit",
+      submenu: [
+        { role: "undo" },
+        { role: "redo" },
+        { role: "cut" },
+        { role: "copy" },
+        { role: "paste" },
+        { type: "separator" },
+        {
+          label: "Search",
+          accelerator: "Cmd+F",
+          click: () => mainWindow.webContents.send("focus-search"),
+        },
+      ],
+    },
+    {
+      label: "View",
+      submenu: [
+        {
+          label: "Dashboard",
+          accelerator: "Cmd+1",
+          click: () => sendNavigate("dashboard"),
+        },
+        {
+          label: "Notes & Highlights",
+          accelerator: "Cmd+2",
+          click: () => sendNavigate("notes"),
+        },
+        {
+          label: "Register Chapters",
+          accelerator: "Cmd+3",
+          click: () => sendNavigate("registration"),
+        },
+        { type: "separator" },
+        {
+          label: "Progress Analytics",
+          accelerator: "Cmd+4",
+          click: () => sendNavigate("analytics"),
+        },
+        {
+          label: "Support",
+          accelerator: "Cmd+5",
+          click: () => sendNavigate("support"),
+        },
+        {
+          label: "Settings",
+          accelerator: "Cmd+6",
+          click: () => sendNavigate("settings"),
+        },
+      ],
+    },
+    {
+      label: "Reading",
+      submenu: [
+        {
+          label: "Today's Verse",
+          accelerator: "Cmd+T",
+          click: () => sendNavigate("dashboard"),
+        },
+        {
+          label: "Copy Today's Verse",
+          accelerator: "Cmd+Shift+T",
+          click: () => console.log("notes"),
+        },
+      ],
+    },
+    {
+      label: "Help",
+      submenu: [
+        {
+          label: "Daily Word Help",
+          click: () => sendNavigate("support"),
+        },
+        {
+          label: "Learn More",
+          click: async () => {
+            const { shell } = require("electron");
+            await shell.openExternal("https://electronjs.org");
+          },
+        },
+      ],
+    },
   ];
 
   return Menu.buildFromTemplate(appMenu);

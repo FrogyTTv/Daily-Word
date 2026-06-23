@@ -11,6 +11,11 @@ contextBridge.exposeInMainWorld("api", {
     // Return an unsubscribe fn so the renderer can clean up the listener.
     return () => ipcRenderer.removeListener("navigate", listener);
   },
+  onFocusSearch: (callback: () => void) => {
+    const listener = () => callback();
+    ipcRenderer.on("focus-search", listener);
+    return () => ipcRenderer.removeListener("focus-search", listener);
+  },
 });
 
 // Kept for parity with the original app (generic invoke bridge).

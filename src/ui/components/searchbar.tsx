@@ -1,17 +1,15 @@
 import SearchIcon from "../assets/search.svg";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 function Searchbar() {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  window.addEventListener("keydown", (event) => {
-    const isCmdF =
-      (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "f";
-    if (isCmdF) {
-      event.preventDefault(); // prevent default browser find
+  useEffect(() => {
+    const unsubscribe = window.api.onFocusSearch(() => {
       inputRef.current?.focus();
-    }
-  });
+    });
+    return unsubscribe;
+  }, []);
   return (
     <div onClick={() => inputRef.current?.focus()} className="searchbar">
       <img src={SearchIcon} style={{ width: "18px" }} />
