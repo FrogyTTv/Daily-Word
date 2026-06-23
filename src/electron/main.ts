@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, Menu } from "electron";
 import path from "path";
 import fs from "fs";
 import { isDev } from "./util.js";
@@ -32,12 +32,97 @@ ipcMain.on("save-database", (_event, newDatabase: Database) => {
   fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
 });
 
+const appMenu: any = [
+  {
+    label: app.name,
+    submenu: [
+      { role: "about" },
+      { type: "separator" },
+      { role: "services" },
+      { type: "separator" },
+      { role: "hide" },
+      { role: "hideOthers" },
+      { role: "unhide" },
+      { type: "separator" },
+      { role: "quit" },
+    ],
+  },
+  {
+    label: "File",
+    submenu: [
+      {
+        label: "New Project",
+        accelerator: "CmdOrCtrl+N", // Keyboard shortcut
+        click: () => {
+          console.log("Creating new project...");
+        },
+      },
+      { type: "separator" }, // Adds a visual line separator
+      // Using an OS built-in role
+      { role: "quit" },
+    ],
+  },
+  {
+    label: "Edit",
+    submenu: [
+      { role: "undo" },
+      { role: "redo" },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+    ],
+  },
+  {
+    label: "View",
+    submenu: [
+      {
+        label: "Dashboard",
+        accelerator: "Cmd+1",
+        click: () => {
+          console.log("Creating new project...");
+        },
+      },
+      {
+        label: "Home",
+        accelerator: "Cmd+2",
+        click: () => {
+          console.log("Creating new project...");
+        },
+      },
+      {
+        label: "Yoo",
+        accelerator: "Cmd+3",
+        click: () => {
+          console.log("Creating new project...");
+        },
+      },
+    ],
+  },
+  {
+    label: "Help",
+    submenu: [
+      {
+        label: "Learn More",
+        click: async () => {
+          const { shell } = require("electron");
+          await shell.openExternal("https://electronjs.org");
+        },
+      },
+    ],
+  },
+];
+
 app.on("ready", () => {
   ensureDatabaseExists();
+
+  const menu = Menu.buildFromTemplate(appMenu);
+  Menu.setApplicationMenu(menu);
 
   const mainWindow = new BrowserWindow({
     titleBarStyle: "hidden",
     // titleBarStyle: 'customButtonsOnHover',
+    backgroundColor: "#1d1d1e",
     width: 1280,
     height: 820,
     minWidth: 700,
@@ -54,6 +139,7 @@ app.on("ready", () => {
       sandbox: false,
     },
   });
+
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5123");
   } else {

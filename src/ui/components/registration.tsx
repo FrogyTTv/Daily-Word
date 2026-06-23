@@ -41,7 +41,7 @@ function Registration() {
   }
 
   if (!database) {
-    return <h1>Loading chapters…</h1>;
+    return <h1>Register Chapters</h1>;
   }
 
   return (
@@ -55,7 +55,10 @@ function Registration() {
           <details key={book} name="book">
             <summary>
               <span>{book}</span>
-              <span className={percentage === 100 ? "book_completed" : undefined}>
+              <span
+                style={{ padding: ".2rem" }}
+                className={percentage === 100 ? "book_completed" : undefined}
+              >
                 {percentage}%
               </span>
             </summary>

@@ -92,6 +92,7 @@ body {
   background-color: #131314;
   overflow: scroll;
   gap: 1rem;
+  user-select: none;
 
   padding: var(--universal-padding);
   /* background-color: #000000; */
@@ -172,6 +173,7 @@ main {
   margin-left: 6rem;
   cursor: text;
   gap: 0.6rem;
+  user-select: none;
   /* color: #ffffff; */
   color: #aaaaaa;
   & input {
@@ -217,6 +219,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  user-select: none;
 }
 
 .chapters-section details {
@@ -284,5 +287,11 @@ main {
 }
 
 .book_completed {
-  color: rgb(12, 205, 12);
+  color: #38a700;
+
+  /* font-size: 0.7em; */
+  background-color: #303030;
+  /* padding: 0.2rem; */
+  /* padding-inline: 0.35rem; */
+  border-radius: 0.2rem;
 }
