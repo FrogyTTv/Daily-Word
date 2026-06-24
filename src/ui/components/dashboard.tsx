@@ -51,7 +51,7 @@ const Dashboard = () => {
             : "Daily Verse is Loading..."}
         </h4>
         <p>
-          {dailyVerse.reference ? `"${dailyVerse.reference}"` : "Loading..."}
+          {dailyVerse.reference ? `${dailyVerse.reference}` : "Loading..."}
         </p>
       </div>
     </>

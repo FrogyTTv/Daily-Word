@@ -1,15 +1,15 @@
 {
-    "appId": "com.e-sorby.daily-word",
-    "files": ["dist-electron", "dist-react"],
-    "icon": "./desktopIcon.png",
-    "mac": {
-        "target": "dmg"
-    },
-    "linux": {
-        "target": "AppImage",
-        "category": "Utility"
-    },
-    "win": {
-        "target": ["portable", "msi"]
-    }
+  "appId": "com.e-sorby.daily-word",
+  "files": ["dist-electron", "dist-react"],
+  "icon": "./desktopIcon-v3.png",
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "target": "AppImage",
+    "category": "Utility"
+  },
+  "win": {
+    "target": ["portable", "msi"]
+  }
 }

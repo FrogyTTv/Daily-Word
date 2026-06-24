@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, clipboard } from "electron";
 import path from "path";
 import fs from "fs";
 import { isDev } from "./util.js";
@@ -50,6 +50,8 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
         },
         { type: "separator" },
         { role: "hide" },
+        { role: "hideOthers" },
+        { role: "unhide" },
         { type: "separator" },
         { role: "quit" },
       ],
@@ -143,7 +145,7 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
         {
           label: "Copy Today's Verse",
           accelerator: "Cmd+Shift+T",
-          click: () => console.log("notes"),
+          click: () => clipboard.writeText("Here is the verse"),
         },
       ],
     },
