@@ -1,9 +1,8 @@
-import { app, BrowserWindow, ipcMain, Menu, clipboard, dialog } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, clipboard, dialog, net } from "electron";
 import path from "path";
 import fs from "fs";
 import { isDev } from "./util.js";
 import { createSeedDatabase, type Database } from "./database.js";
-import { error } from "console";
 
 function getDatabasePath(): string {
   return path.join(app.getPath("userData"), "database.json");
@@ -33,8 +32,8 @@ ipcMain.on("save-database", (_event, newDatabase: Database) => {
   fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
 });
 
-const downloadDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
-  console.log("Exporting Reading Progress...");
+const exportDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
+  console.log("Exporting Database...");
 
   dialog
     .showOpenDialog(mainWindow, {
@@ -42,16 +41,28 @@ const downloadDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
     })
     .then((result) => {
       if (result.canceled) {
-        return console.error("Download Canceled");
+        console.log("Canceled:\x1b[1;31m Export\x1b[0m");
+        // dialog.showMessageBox(mainWindow, {
+        //   type: "info",
+        //   // title: "Database Updated",
+        //   message: "Export Canceled",
+        //   buttons: ["OK"],
+        // });
       } else {
-        console.log(`User Selected: ${result.filePaths[0]}`);
+        console.log(`   ${result.filePaths[0]}`);
         try {
           fs.writeFileSync(
             `${result.filePaths[0]}/database.json`,
             `${fs.readFileSync(getDatabasePath(), "utf-8")}`,
             "utf8",
           );
-          console.log("Successfully Downloaded!");
+          console.log("\x1b[1;32mDone Exporting!\x1b[0m");
+          dialog.showMessageBox(mainWindow, {
+            type: "info",
+            // title: "Database Updated",
+            message: "Successfully Exported!",
+            buttons: ["OK"],
+          });
         } catch (err) {
           console.error(err);
         }
@@ -67,19 +78,48 @@ const importDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
     })
     .then((result) => {
       if (result.canceled) {
-        return console.error("Download Canceled");
+        console.log("Canceled:\x1b[1;31m Import\x1b[0m");
       } else {
-        console.log("Found File");
-        console.log(result.filePaths[0]);
+        console.log(`   ${result.filePaths[0]}`);
         try {
+          console.log("Updating Database...");
           fs.writeFileSync(
             getDatabasePath(),
             fs.readFileSync(result.filePaths[0], "utf-8"),
             "utf8",
           );
+          console.log("\x1b[1;32mDone Importing!\x1b[0m");
+
+          dialog.showMessageBox(mainWindow, {
+            type: "info",
+            // title: "Database Updated",
+            message: "Database Imported",
+            buttons: ["OK"],
+          });
         } catch (err) {
           console.error(err);
         }
+      }
+    });
+};
+const resetDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
+  console.log("Confirming Reset Datase...");
+  dialog
+    .showMessageBox(mainWindow, {
+      type: "warning",
+      title: "Warning",
+      message: "Are you sure?",
+      detail: "This action cannot be undone.",
+      buttons: ["Reset Database", "Cancel"], // macOS checks keywords here too!
+      defaultId: 1,
+      cancelId: 1,
+      noLink: false,
+    })
+    .then((res) => {
+      if (res.response === 0) {
+        console.log("Continue");
+      } else {
+        return console.log("Canceled Action");
       }
     });
 };
@@ -113,11 +153,11 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
       submenu: [
         {
           label: "Export Reading Progress",
-          accelerator: "Cmd+E",
+          accelerator: "Cmd+O",
           click: () => {
             // console.log("Export Reading Progress...");
             // shell.openPath(getDatabasePath());
-            downloadDatabase(mainWindow);
+            exportDatabase(mainWindow);
           },
         },
         {
@@ -132,7 +172,8 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
         {
           label: "Reset All Progress",
           click: () => {
-            console.log("Reset All Progress...");
+            // console.log("Reset All Progress...");
+            resetDatabase(mainWindow);
           },
         },
       ],
@@ -237,6 +278,7 @@ app.on("ready", () => {
     minWidth: 700,
     // minWidth: 800,
     minHeight: 500,
+    show: false,
     trafficLightPosition: {
       x: 20, // Adds left padding (in pixels)
       y: 20, // Adds top padding (in pixels)
@@ -251,6 +293,9 @@ app.on("ready", () => {
 
   Menu.setApplicationMenu(buildAppMenu(mainWindow));
 
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
+  });
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5123");
   } else {
