@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain, Menu, clipboard } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, clipboard, dialog } from "electron";
 import path from "path";
 import fs from "fs";
 import { isDev } from "./util.js";
 import { createSeedDatabase, type Database } from "./database.js";
+import { error } from "console";
 
 function getDatabasePath(): string {
   return path.join(app.getPath("userData"), "database.json");
@@ -31,6 +32,35 @@ ipcMain.on("save-database", (_event, newDatabase: Database) => {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
 });
+
+const downloadDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
+  console.log("Exporting Reading Progress...");
+
+  const downloadLocation = await dialog.showOpenDialog(mainWindow, {
+    properties: ["openDirectory"], // Restricts selection to files only
+  });
+  if (downloadLocation.canceled) {
+    return console.error("Download Canceled");
+  } else {
+    console.log(`User Selected: ${downloadLocation.filePaths[0]}`);
+    try {
+      fs.writeFileSync(
+        `${downloadLocation.filePaths[0]}/database.json`,
+        `${fs.readFileSync(getDatabasePath(), "utf-8")}`,
+        "utf8",
+      );
+      console.log("Successfully Downloaded!");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+const importDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
+  console.log("Importing Database...");
+  // const databaseLocation = await dialog.showOpenDialog(mainWindow, {
+  //   properties: ["openDirectory"],
+  // });
+};
 
 function buildAppMenu(mainWindow: BrowserWindow): Menu {
   const sendNavigate = (page: string) => {
@@ -63,14 +93,17 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
           label: "Export Reading Progress",
           accelerator: "Cmd+E",
           click: () => {
-            console.log("Export Reading Progress...");
+            // console.log("Export Reading Progress...");
+            // shell.openPath(getDatabasePath());
+            downloadDatabase(mainWindow);
           },
         },
         {
           label: "Import Reading Progress",
           accelerator: "Cmd+I",
           click: () => {
-            console.log("Import Reading Progress...");
+            // console.log("Import Reading Progress...");
+            importDatabase(mainWindow);
           },
         },
         { type: "separator" }, // Adds a visual line separator
