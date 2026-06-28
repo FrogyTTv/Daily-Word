@@ -46,13 +46,9 @@ const Dashboard = () => {
         }}
       >
         <h4>
-          {dailyVerse.text
-            ? `"${dailyVerse.text}"`
-            : "Daily Verse is Loading..."}
+          {dailyVerse.text ? `${dailyVerse.text}` : "Daily Verse is Loading..."}
         </h4>
-        <p>
-          {dailyVerse.reference ? `${dailyVerse.reference}` : "Loading..."}
-        </p>
+        <p>{dailyVerse.reference ? `${dailyVerse.reference}` : "Loading..."}</p>
       </div>
     </>
   );

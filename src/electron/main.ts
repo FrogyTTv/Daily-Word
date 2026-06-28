@@ -36,30 +36,52 @@ ipcMain.on("save-database", (_event, newDatabase: Database) => {
 const downloadDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
   console.log("Exporting Reading Progress...");
 
-  const downloadLocation = await dialog.showOpenDialog(mainWindow, {
-    properties: ["openDirectory"], // Restricts selection to files only
-  });
-  if (downloadLocation.canceled) {
-    return console.error("Download Canceled");
-  } else {
-    console.log(`User Selected: ${downloadLocation.filePaths[0]}`);
-    try {
-      fs.writeFileSync(
-        `${downloadLocation.filePaths[0]}/database.json`,
-        `${fs.readFileSync(getDatabasePath(), "utf-8")}`,
-        "utf8",
-      );
-      console.log("Successfully Downloaded!");
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openDirectory"], // Restricts selection to files only
+    })
+    .then((result) => {
+      if (result.canceled) {
+        return console.error("Download Canceled");
+      } else {
+        console.log(`User Selected: ${result.filePaths[0]}`);
+        try {
+          fs.writeFileSync(
+            `${result.filePaths[0]}/database.json`,
+            `${fs.readFileSync(getDatabasePath(), "utf-8")}`,
+            "utf8",
+          );
+          console.log("Successfully Downloaded!");
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    });
 };
 const importDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
   console.log("Importing Database...");
-  // const databaseLocation = await dialog.showOpenDialog(mainWindow, {
-  //   properties: ["openDirectory"],
-  // });
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ name: "Database", extensions: ["json"] }],
+    })
+    .then((result) => {
+      if (result.canceled) {
+        return console.error("Download Canceled");
+      } else {
+        console.log("Found File");
+        console.log(result.filePaths[0]);
+        try {
+          fs.writeFileSync(
+            getDatabasePath(),
+            fs.readFileSync(result.filePaths[0], "utf-8"),
+            "utf8",
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    });
 };
 
 function buildAppMenu(mainWindow: BrowserWindow): Menu {
