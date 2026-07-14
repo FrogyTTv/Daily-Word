@@ -138,9 +138,13 @@ body {
 
 main {
   display: flex;
-  overflow: scroll;
+  /* overflow-y: scroll; */
+  /* overflow-y: scroll makes the layout always have the spacing from the scrollbar */
+  /* overflow-y auto makes the layout jump when there is overflowing height */
+  overflow-y: auto;
   flex-direction: column;
   padding: var(--universal-padding);
+  padding-bottom: 0;
   gap: 1rem;
   & h1 {
     padding-top: 0.12rem;
@@ -207,6 +211,7 @@ main {
   flex-direction: column;
   justify-content: space-between;
   min-height: 20rem;
+  flex-shrink: 0;
   padding-bottom: 2rem;
   /* background-color: #3f84e5; */
   color: hsl(0, 0%, 0%, 0.67);
@@ -298,11 +303,19 @@ main {
 
 .bible-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(13rem, 1fr);
   min-height: 9rem;
   gap: 1.2rem;
-  min-width: 60rem;
-  overflow: auto;
+  overflow-x: auto;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+
+  /* full-bleed to the right edge of the window */
+  margin-right: calc(-1 * var(--universal-padding));
+  padding-right: var(--universal-padding);
+
   & div {
     display: flex;
     flex-direction: column-reverse;
@@ -314,6 +327,6 @@ main {
   }
 }
 
-main {
-  overflow: hidden;
+.bible-stats::-webkit-scrollbar {
+  display: none;
 }
