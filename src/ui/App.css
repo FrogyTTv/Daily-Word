@@ -5,6 +5,7 @@
   box-sizing: border-box;
 
   --universal-padding: 1.5rem;
+  --main-b-rad: 1.2rem;
 
   --fw-extralight: 200;
   --fw-light: 300;
@@ -211,7 +212,7 @@ main {
   color: hsl(0, 0%, 0%, 0.67);
   gap: 0.5rem;
   padding: 1.3rem;
-  border-radius: 1.2rem;
+  border-radius: var(--main-b-rad);
 }
 
 /* Register Chapters page (ported from the original chapters_read.css).
@@ -291,10 +292,28 @@ main {
 
 .book_completed {
   color: #38a700;
-
-  /* font-size: 0.7em; */
   background-color: #303030;
-  /* padding: 0.2rem; */
-  /* padding-inline: 0.35rem; */
   border-radius: 0.2rem;
+}
+
+.bible-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  min-height: 9rem;
+  gap: 1.2rem;
+  min-width: 60rem;
+  overflow: auto;
+  & div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    background-color: rgb(158, 158, 158);
+    color: hsl(0, 0%, 0%, 0.67);
+    padding: 1.3rem;
+    border-radius: var(--main-b-rad);
+  }
+}
+
+main {
+  overflow: hidden;
 }

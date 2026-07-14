@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import type { Database } from "../global";
 
+const QuickStat = ({ title, value, bg }: any) => {
+  return (
+    <div style={{ backgroundColor: bg }}>
+      <p>{title}</p>
+      <h4>{value}</h4>
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const [dailyVerse, setDailyVerse] = useState({ text: "", reference: "" });
   const DAILYVERSEAPI =
@@ -38,6 +47,12 @@ const Dashboard = () => {
     <>
       <h1 style={{ padding: 0 }}>Hello, {database?.username} 👋</h1>
       <h2>Quick Stats</h2>
+      <div className="bible-stats">
+        <QuickStat bg={BGColors[0]} title={"Bible Read"} value={4} />
+        <QuickStat bg={BGColors[1]} title={"Reading Streak"} value={"7 day"} />
+        <QuickStat bg={BGColors[2]} title={"Chapters read"} value={"5"} />
+        <QuickStat bg={BGColors[3]} title={"Books read"} value={"0"} />
+      </div>
       <h2>Daily Verse</h2>
       <div
         className="dv-text"
