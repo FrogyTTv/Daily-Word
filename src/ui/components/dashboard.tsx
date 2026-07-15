@@ -43,15 +43,55 @@ const Dashboard = () => {
       console.log(e);
     }
   }
+
+  let numberOfChapter = 0;
+  let readChapters = 0;
+  let completedBooks = 0;
+
+  for (const book in database?.readingProgress) {
+    const chapters = database.readingProgress[book];
+
+    let allChaptersRead = true;
+
+    for (const chapter in chapters) {
+      numberOfChapter++;
+      if (chapters[chapter] === true) {
+        readChapters++;
+      }
+      if (chapters[chapter] !== true) {
+        allChaptersRead = false;
+      }
+    }
+
+    if (allChaptersRead === true) {
+      completedBooks++;
+    }
+  }
+
+  const biblePercentage = (readChapters / numberOfChapter) * 100;
+  const roundedBiblePercentage = Math.round(biblePercentage * 100) / 100;
+
   return (
     <>
       <h1 style={{ padding: 0 }}>Hello, {database?.username} 👋</h1>
       <h2>Quick Stats</h2>
       <div className="bible-stats">
-        <QuickStat bg={BGColors[0]} title={"Bible Read"} value={4} />
+        <QuickStat
+          bg={BGColors[0]}
+          title={"Bible Read"}
+          value={`${roundedBiblePercentage}%`}
+        />
         <QuickStat bg={BGColors[1]} title={"Reading Streak"} value={"7 day"} />
-        <QuickStat bg={BGColors[2]} title={"Chapters read"} value={"5"} />
-        <QuickStat bg={BGColors[3]} title={"Books read"} value={"0"} />
+        <QuickStat
+          bg={BGColors[2]}
+          title={"Chapters read"}
+          value={readChapters}
+        />
+        <QuickStat
+          bg={BGColors[3]}
+          title={"Books read"}
+          value={completedBooks}
+        />
       </div>
       <h2>Daily Verse</h2>
       <div

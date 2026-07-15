@@ -75,7 +75,7 @@ export const BOOK_CHAPTER_COUNTS: Record<string, number> = {
 };
 
 // Build a fresh database where every chapter is marked unread (false).
-export function createSeedDatabase(username = "Elias"): Database {
+export function createSeedDatabase(username = "New User"): Database {
   const readingProgress: ReadingProgress = {};
 
   for (const [book, chapterCount] of Object.entries(BOOK_CHAPTER_COUNTS)) {

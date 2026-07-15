@@ -1,4 +1,12 @@
-import { app, BrowserWindow, ipcMain, Menu, clipboard, dialog, net } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  clipboard,
+  dialog,
+  net,
+} from "electron";
 import path from "path";
 import fs from "fs";
 import { isDev } from "./util.js";
@@ -158,6 +166,13 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
             // console.log("Export Reading Progress...");
             // shell.openPath(getDatabasePath());
             exportDatabase(mainWindow);
+          },
+        },
+        {
+          label: "Inspect",
+          accelerator: "Cmd+E",
+          click: () => {
+            mainWindow.webContents.openDevTools();
           },
         },
         {
