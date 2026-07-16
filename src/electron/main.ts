@@ -26,14 +26,6 @@ function ensureDatabaseExists(): void {
   fs.writeFileSync(dbPath, JSON.stringify(createSeedDatabase(), null, 2));
 }
 
-ipcMain.handle("load-database", async (): Promise<Database> => {
-  const dbPath = getDatabasePath();
-  if (!fs.existsSync(dbPath)) {
-    return createSeedDatabase();
-  }
-  return JSON.parse(fs.readFileSync(dbPath, "utf-8")) as Database;
-});
-
 type DailyBibleVerse = {
   text: string;
   reference: string;
@@ -65,11 +57,27 @@ ipcMain.handle("loadBibleVerse", async (): Promise<DailyBibleVerse> => {
   }
 });
 
+ipcMain.handle("load-database", async (): Promise<Database> => {
+  const dbPath = getDatabasePath();
+  if (!fs.existsSync(dbPath)) {
+    return createSeedDatabase();
+  }
+  return JSON.parse(fs.readFileSync(dbPath, "utf-8")) as Database;
+});
+
+
 ipcMain.on("save-database", (_event, newDatabase: Database) => {
   const dbPath = getDatabasePath();
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
 });
+
+const saveToDatabase = (newDatabase: Database) => {
+  // Make sure you pass the entire database with the changes, since this just overwrites everything at that location.
+  const dbPath = getDatabasePath();
+  fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+  fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
+};
 
 const exportDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
   console.log("Exporting Database...");
@@ -141,15 +149,17 @@ const importDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
       }
     });
 };
-const resetDatabase = async (mainWindow: BrowserWindow): Promise<void> => {
+const resetDatabasePrompt = async (
+  mainWindow: BrowserWindow,
+): Promise<void> => {
   console.log("Confirming Reset Datase...");
   dialog
     .showMessageBox(mainWindow, {
       type: "warning",
-      title: "Warning",
-      message: "Are you sure?",
+      title: "Reset Database",
+      message: "Are you sure you want to reset your progress??",
       detail: "This action cannot be undone.",
-      buttons: ["Reset Database", "Cancel"], // macOS checks keywords here too!
+      buttons: ["Delete", "Cancel"],
       defaultId: 1,
       cancelId: 1,
       noLink: false,
@@ -220,7 +230,7 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
           label: "Reset All Progress",
           click: () => {
             // console.log("Reset All Progress...");
-            resetDatabase(mainWindow);
+            resetDatabasePrompt(mainWindow);
           },
         },
       ],
