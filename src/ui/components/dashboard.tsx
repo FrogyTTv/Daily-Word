@@ -4,45 +4,24 @@ import type { Database } from "../global";
 const QuickStat = ({ title, value, bg }: any) => {
   return (
     <div style={{ backgroundColor: bg }}>
-      <p>{title}</p>
       <h4>{value}</h4>
+      <p>{title}</p>
     </div>
   );
 };
 
 const Dashboard = () => {
   const [dailyVerse, setDailyVerse] = useState({ text: "", reference: "" });
-  const DAILYVERSEAPI =
-    "https://beta.ourmanna.com/api/v1/get/?format=json&order=daily";
 
   const BGColors = ["#D8E0E8", "#DEEAD6", "#FDF5C8", "#E8DDF5"];
   const [randomDVColor, setRandomDVColor] = useState("");
   const [database, setDatabase] = useState<Database | null>(null);
 
   useEffect(() => {
-    fetchDailyVerse();
     setRandomDVColor(BGColors[Math.floor(Math.random() * 4)]);
     window.api.loadDatabase().then(setDatabase);
+    window.api.loadBibleVerse().then(setDailyVerse);
   }, []);
-
-  async function fetchDailyVerse() {
-    try {
-      const response = await fetch(DAILYVERSEAPI);
-      const data = await response.json();
-
-      const { text, reference } = data?.verse?.details || {};
-
-      setDailyVerse({
-        text: text ?? "",
-        reference: reference ?? "",
-      });
-
-      // console.log(text);
-      // console.log(reference);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   let numberOfChapter = 0;
   let readChapters = 0;

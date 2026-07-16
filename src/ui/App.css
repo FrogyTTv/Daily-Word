@@ -318,7 +318,8 @@ main {
 
   & div {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    justify-content: end;
     gap: 0.5rem;
     background-color: rgb(158, 158, 158);
     color: hsl(0, 0%, 0%, 0.67);

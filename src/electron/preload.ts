@@ -5,6 +5,8 @@ contextBridge.exposeInMainWorld("api", {
   saveDatabase: (database: Database) =>
     ipcRenderer.send("save-database", database),
   loadDatabase: (): Promise<Database> => ipcRenderer.invoke("load-database"),
+  loadBibleVerse: (): Promise<{ text: string; reference: string }> =>
+    ipcRenderer.invoke("loadBibleVerse"),
   onNavigate: (callback: (page: string) => void) => {
     const listener = (_event: unknown, page: string) => callback(page);
     ipcRenderer.on("navigate", listener);

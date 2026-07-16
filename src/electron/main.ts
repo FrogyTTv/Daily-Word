@@ -34,6 +34,37 @@ ipcMain.handle("load-database", async (): Promise<Database> => {
   return JSON.parse(fs.readFileSync(dbPath, "utf-8")) as Database;
 });
 
+type DailyBibleVerse = {
+  text: string;
+  reference: string;
+};
+
+let bibleVerse: DailyBibleVerse;
+
+ipcMain.handle("loadBibleVerse", async (): Promise<DailyBibleVerse> => {
+  const DAILYVERSEAPI =
+    "https://beta.ourmanna.com/api/v1/get/?format=json&order=daily";
+  try {
+    const response = await fetch(DAILYVERSEAPI);
+    const data = await response.json();
+
+    const { text, reference } = data?.verse?.details ?? {};
+
+    bibleVerse = {
+      text: text ?? "",
+      reference: reference ?? "",
+    };
+
+    return {
+      text: text ?? "",
+      reference: reference ?? "",
+    };
+  } catch (e) {
+    console.error(e);
+    return { text: "", reference: "" };
+  }
+});
+
 ipcMain.on("save-database", (_event, newDatabase: Database) => {
   const dbPath = getDatabasePath();
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -160,19 +191,20 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
       label: "File",
       submenu: [
         {
+          label: "Dev Inspect",
+          accelerator: "Cmd+E",
+          click: () => {
+            mainWindow.webContents.openDevTools();
+          },
+        },
+        { type: "separator" }, // Adds a visual line separator
+        {
           label: "Export Reading Progress",
           accelerator: "Cmd+O",
           click: () => {
             // console.log("Export Reading Progress...");
             // shell.openPath(getDatabasePath());
             exportDatabase(mainWindow);
-          },
-        },
-        {
-          label: "Inspect",
-          accelerator: "Cmd+E",
-          click: () => {
-            mainWindow.webContents.openDevTools();
           },
         },
         {
@@ -256,7 +288,7 @@ function buildAppMenu(mainWindow: BrowserWindow): Menu {
         {
           label: "Copy Today's Verse",
           accelerator: "Cmd+Shift+T",
-          click: () => clipboard.writeText("Here is the verse"),
+          click: () => clipboard.writeText(bibleVerse.text),
         },
       ],
     },

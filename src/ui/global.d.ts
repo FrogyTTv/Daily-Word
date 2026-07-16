@@ -10,6 +10,7 @@ declare global {
     api: {
       saveDatabase: (database: Database) => void;
       loadDatabase: () => Promise<Database>;
+      loadBibleVerse: () => Promise<{ text: string; reference: string }>;
       onNavigate: (callback: (page: string) => void) => () => void;
       onFocusSearch: (callback: () => void) => () => void;
     };
