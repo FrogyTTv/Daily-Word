@@ -65,13 +65,19 @@ ipcMain.handle("load-database", async (): Promise<Database> => {
   return JSON.parse(fs.readFileSync(dbPath, "utf-8")) as Database;
 });
 
-
 ipcMain.on("save-database", (_event, newDatabase: Database) => {
   const dbPath = getDatabasePath();
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   fs.writeFileSync(dbPath, JSON.stringify(newDatabase, null, 2));
 });
 
+const loadDatabaseFunc = (): Database => {
+  const dbPath = getDatabasePath();
+  if (!fs.existsSync(dbPath)) {
+    return createSeedDatabase();
+  }
+  return JSON.parse(fs.readFileSync(dbPath, "utf-8")) as Database;
+};
 const saveToDatabase = (newDatabase: Database) => {
   // Make sure you pass the entire database with the changes, since this just overwrites everything at that location.
   const dbPath = getDatabasePath();
@@ -166,11 +172,26 @@ const resetDatabasePrompt = async (
     })
     .then((res) => {
       if (res.response === 0) {
-        console.log("Continue");
+        resetDatabaseFunction();
+        // Refresh dashboard page
+        mainWindow.webContents.send("navigate", "registration");
+        mainWindow.webContents.send("navigate", "dashboard");
       } else {
         return console.log("Canceled Action");
       }
     });
+};
+
+const resetDatabaseFunction = () => {
+  const database = loadDatabaseFunc();
+  for (const book in database.readingProgress) {
+    for (const chapter in database.readingProgress[book]) {
+      database.readingProgress[book][chapter] = false;
+    }
+  }
+  console.log(": Reset Database-copy");
+  saveToDatabase(database);
+  console.log(": Saved copy to database");
 };
 
 function buildAppMenu(mainWindow: BrowserWindow): Menu {
